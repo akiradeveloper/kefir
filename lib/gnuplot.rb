@@ -26,6 +26,7 @@ module Gnuplot
       p = Plot.new make_plot_data(expr)
       yield p
       @plot << p 
+      return self
     end
 
     def splot(expr, &proc)
@@ -33,6 +34,7 @@ module Gnuplot
       p = Plot.new make_plot_data(expr)
       yield p
       @plot << p
+      return self
     end
 
     def set(option, value)
@@ -45,7 +47,6 @@ module Gnuplot
         set "no#{option}"
         return self
       end
-      p "unset"
       @io << "unset #{option}\n"
       return self
     end
@@ -64,6 +65,10 @@ module Gnuplot
     end
 
     def make_plot_data(expr)
+      if File.file?(expr)
+        return "\"#{expr}\""
+      end
+      # mathimatic expression
       if expr.kind_of? String
         return expr
       end
