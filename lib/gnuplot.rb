@@ -65,11 +65,12 @@ module Gnuplot
     end
 
     def make_plot_data(expr)
-      if File.file?(expr)
-        return "\"#{expr}\""
-      end
-      # mathimatic expression
+      # String is either expression or file path
       if expr.kind_of? String
+        if File.file?(expr)
+          return "\"#{expr}\""
+        end
+        # mathimatic expression
         return expr
       end
       if expr.kind_of? Array
@@ -145,9 +146,9 @@ module Gnuplot
           row = []
           (0...expr.column_size).each do |j|
             row << expr[i, j] 
-            @f.write(row.join(" "))
-            @f.write("\n")
           end
+          @f.write(row.join(" "))
+          @f.write("\n")
         end
         @f.close
       end
