@@ -1,5 +1,5 @@
 task :push do
-  repo = "http://bitbucket.org/akiradeveloper/gnuplotrb"
+  repo = "http://bitbucket.org/akiradeveloper/kefir"
   sh "hg push #{repo}"
 end
 

@@ -24,7 +24,7 @@ module Kefir
       if expr.kind_of? ::Matrix
         return Kefir::Matrix.new(expr, &proc) if Kefir::Matrix.accept?(expr)
       end
-      raise "#{expr} is not a supported data expression"
+      raise "#{expr.class} is not a supported data expression"
     end
   end
 end

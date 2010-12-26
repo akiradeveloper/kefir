@@ -32,7 +32,7 @@ module Kefir
     def <<(line)
       @io << line << "\n"
     end
-    def set(option, value)
+    def set(option, value='')
       @io << "set #{option} #{value}\n"
     end
     def unset(option)
