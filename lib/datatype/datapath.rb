@@ -1,12 +1,16 @@
 module Kefir
-
   class << self
-    class DataPath
-      def data_expr
+    class DataPath < Kefir::Data
+      def initialize(expr, &proc)
+        super()
+        @expr = expr
+        yield self
       end
-     
+      def data_expr
+        return @expr
+      end
       def inline_data
-        return ""
+        return ''
       end
     end
   end

@@ -1,9 +1,13 @@
 module Kefir
-  module Data
-    @options
+  class Data
+    def initialize
+      @options = []
+    end
     def <<(option)
       @options << option
-    end  
-    attr_reader :options 
+    end
+    def option_expr
+      return @options.join ' '
+    end
   end
 end

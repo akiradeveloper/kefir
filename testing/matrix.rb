@@ -1,7 +1,7 @@
-require "gnuplot"
+require "kefir"
 
 if __FILE__ == $0
-  Gnuplot.open() do |gp|
+  Kefir.open() do |gp|
     m = Matrix[
     [0,1,4,9],
     [1,2,5,10],
@@ -10,11 +10,11 @@ if __FILE__ == $0
     [16,17,20,25],
     [25,26,29,34]]
 
-    gp.splot(m) do |plot|
-      plot
-      .option("matrix")
-      .option("with lines")
-      p plot
+    gp.splot do |plot|
+      plot << Kefir.eval(m) do |d|
+        d << 'matrix'
+        d << 'with lines'
+      end
     end 
   end  
 end

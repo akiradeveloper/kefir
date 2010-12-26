@@ -1,13 +1,13 @@
-require "gnuplot"
+require "kefir"
 
 if __FILE__ == $0
-  Gnuplot.open() do |gp|
+  Kefir.open() do |gp|
     thisdir = File.dirname __FILE__
-    gp
-    .plot("#{thisdir}/test.dat.testing") do |plot|
-      plot
-      .option("with lines")
-      .option("title \"unko\"")
+    gp.plot do |plot|
+      plot << Kefir.eval("\"#{thisdir}/test.dat.testing\"") do |d|
+        d << 'with lines'
+        d << 'title "unko"'
+      end
     end 
   end  
 end

@@ -6,84 +6,65 @@ require "matrix"
 end
 
 module Kefir
-  
   class << self
     public
     def open(&proc)
       IO.popen("gnuplot", "w") do |io|
         main = Main.new(io)
-        yield gp
-        main.terminate()
+        yield main
+        main.terminate
       end
     end
   end
-
   class Main
     def initialize(io)
       @io = io
       @plot = nil
     end
-
-    def plot(expr, &proc)
-      @plot = Plot.new("plot")
+    def plot(&proc)
+      @plot = Plot.new('plot')
       yield @plot
-      self
     end
-
-    def splot(expr, &proc)
-      @plot = Plot.new("splot")
+    def splot(&proc)
+      @plot = Plot.new('splot')
       yield @plot
-      self
     end
-
     def <<(line)
-      @io << line
-      self
+      @io << line << "\n"
     end
-
     def set(option, value)
       @io << "set #{option} #{value}\n"
-      self
     end
-
     def unset(option)
       if pre_version4?
         set "no#{option}\n"
-        self
       end
       @io << "unset #{option}\n"
-      self
     end
-
     def terminate
       if @plot == nil
-        raise "do plot"
+        raise 'do plot'
       end
       @io << @plot.eval
     end
-
     private 
     def pre_version4?
-      version = `gnuplot --version`.split(" ")[1] 
+      version = `gnuplot --version`.split(' ')[1] 
       return version.to_f < 4.0
     end
   end
-
   class Plot
     def initialize(name)
       @plotname = name
       @data = []
     end
-    
     def <<(data)
       @data << data
     end
-
     def eval
       s = @plotname + " "
-      plotline = @data.map { |d| d.data_expr + " " + d.options }.join ", "
+      plotline = @data.map { |d| d.data_expr + " " + d.option_expr }.join ", "
       s << plotline << "\n"
-
       @data.each do |d|
         if d.inline_data == ""
           next
