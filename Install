@@ -1,2 +1,6 @@
-a
+============
+Dependencies
+============
 
+# Gnuplot ( with 4.2 tested )
+# Ruby ( with 1.9.2 tested )

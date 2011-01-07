@@ -21,7 +21,11 @@ module Kefir
       s = ''
       xs = @expr[0]
       ys = @expr[1]
-      @expr.each_index do |i|
+      unless xs.size == ys.size
+        raise "size of arrays must be equal"
+      end
+      size = xs.size
+      (0...size).each do |i|
         s << "#{xs[i]} #{ys[i]}\n" 
       end
       s

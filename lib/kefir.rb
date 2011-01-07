@@ -7,15 +7,17 @@ end
 
 module Kefir
   class << self
-    public
-    def open(&proc)
-      IO.popen("gnuplot", "w") do |io|
-        main = Main.new(io)
-        yield main
-        main.terminate
-      end
+    include Kefir
+  end
+
+  def open(&proc)
+    IO.popen("gnuplot", "w") do |io|
+      main = Main.new(io)
+      yield main
+      main.terminate
     end
   end
+
   class Main
     def initialize(io)
       @io = io
@@ -53,6 +55,7 @@ module Kefir
       return version.to_f < 4.0
     end
   end
+
   class Plot
     def initialize(name)
       @plotname = name
@@ -72,7 +75,6 @@ module Kefir
         s << d.inline_data
         s << "e\n"
       end
-      p s
       return s
     end
   end
