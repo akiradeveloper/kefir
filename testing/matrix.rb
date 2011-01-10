@@ -11,6 +11,11 @@ if __FILE__ == $0
     [25,26,29,34]]
 
     gp.splot do |plot|
+      gp.set 'contour'
+      gp.set 'cntrparam', 'bspline'
+      gp.set 'cntrparam', 'levels incremental 0, 1, 20'
+      gp.set 'terminal', 'jpeg'
+      gp.set 'output', '"hoge.jpeg"'
       plot << Kefir.eval(m) do |d|
         d << 'matrix'
         d << 'with lines'
