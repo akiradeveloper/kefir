@@ -5,6 +5,12 @@ require "matrix"
   require [thisdir, f].join "/"
 end
 
+class String
+  def embed
+    "\"#{self}\""
+  end
+end
+
 module Kefir
   class << self
     include Kefir
